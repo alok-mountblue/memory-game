@@ -1,17 +1,6 @@
-const gameContainer = document.getElementsById("game");
+const gameContainer = document.getElementById("game");
 
-const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple"
-];
+const COLORS = [ "red","blue","green","orange","purple","red","blue","green","orange","purple" ];
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -57,11 +46,40 @@ function createDivsForColors(colorArray) {
   }
 }
 
+let firstCard, secondCard;
+let numberOfClick = 0;
+let matchingPair = 0;
 // TODO: Implement this function!
 function handleCardClick(event) {
-  // you can use event.target to see which element was clicked
-  console.log("you clicked",event.target);
+
+if(matchingPair == 4){
+  alert("Congratulation !!");
 }
 
-// when the DOM loads
+if(numberOfClick!=1){
+  firstCard = event.currentTarget;
+  firstCard.style.backgroundColor = event.target.classList.value;
+  numberOfClick = 1;
+}
+else if(firstCard != event.target){
+  secondCard = event.currentTarget;
+  secondCard.style.backgroundColor = event.target.classList.value;
+  
+  if(firstCard.classList.value === secondCard.classList.value){
+    matchingPair += 1;
+    console.log(matchingPair);
+    firstCard.removeEventListener("click", handleCardClick);
+    secondCard.removeEventListener("click", handleCardClick); 
+  }else{
+    setTimeout(() => {
+      firstCard.style.backgroundColor = "unset";
+      secondCard.style.backgroundColor = "unset";
+    }, 1 * 1000);
+  }
+  numberOfClick = 0;
+}
+
+}
+
+
 createDivsForColors(shuffledColors);
